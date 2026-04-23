@@ -1,181 +1,155 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Expense Tracker </title>
+    <title>Expense Tracker Pro</title>
 
-<style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    margin:0;
-    background: linear-gradient(-45deg,#667eea,#764ba2,#00c6ff,#ff6a00);
-    background-size:400% 400%;
-    animation:bg 12s infinite;
-    color:white;
-}
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #00c6ff, #ff6a00);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: white;
+        }
 
-@keyframes bg {
-    0%{background-position:0%}
-    50%{background-position:100%}
-    100%{background-position:0%}
-}
+        @keyframes gradientBG {
+            0% { background-position: 0% }
+            50% { background-position: 100% }
+            100% { background-position: 0% }
+        }
 
-h1 {
-    text-align:center;
-    margin-top:20px;
-}
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-.container {
-    width:90%;
-    max-width:1100px;
-    margin:auto;
-}
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+        }
 
-.card {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    padding:20px;
-    margin:20px 0;
-    border-radius:15px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.3);
-    transition:0.3s;
-}
+        .card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
 
-.card:hover {
-    transform:scale(1.02);
-}
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            border: none;
+        }
 
-input, select {
-    padding:10px;
-    margin:5px;
-    border-radius:8px;
-    border:none;
-    outline:none;
-}
+        button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: #00c6ff;
+            color: white;
+            transition: 0.3s;
+        }
 
-button {
-    padding:10px 15px;
-    margin:5px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    background:#00c6ff;
-    color:white;
-    transition:0.3s;
-}
+        button:hover {
+            transform: scale(1.05);
+            background: #0072ff;
+        }
 
-button:hover {
-    transform:scale(1.05);
-    background:#0072ff;
-}
+        .danger { background: #ff4b5c; }
+        .danger:hover { background: #c0392b; }
 
-.danger { background:#ff4b5c; }
-.danger:hover { background:#c0392b; }
+        .expense {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+        }
 
-.expense {
-    display:flex;
-    justify-content:space-between;
-    padding:12px;
-    margin-top:10px;
-    border-radius:10px;
-    background:rgba(255,255,255,0.2);
-}
+        #total {
+            font-size: 24px;
+            color: #00ffcc;
+        }
 
-.expense:hover {
-    background:rgba(255,255,255,0.3);
-}
-
-#total {
-    font-size:26px;
-    color:#00ffcc;
-}
-
-.toast {
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:black;
-    padding:10px 20px;
-    border-radius:10px;
-    display:none;
-}
-</style>
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: black;
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>💰 Expense Tracker ULTRA</h1>
+<h1>💰 Expense Tracker PRO</h1>
 
 <div class="container">
 
-<!-- ADD -->
-<div class="card">
-<h3>Add Expense</h3>
+    <!-- ADD -->
+    <div class="card">
+        <h3>Add Expense</h3>
 
-<input id="amount" placeholder="Amount" type="number">
+        <input type="number" id="amount" placeholder="Amount">
 
-<!--  CATEGORY DROPDOWN -->
-<select id="category">
-    <option value="">Select Category</option>
-    <option>Food</option>
-    <option>Travel</option>
-    <option>Shopping</option>
-    <option>Bills</option>
-    <option>Entertainment</option>
-</select>
+        <select id="category">
+            <option value="">Category</option>
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Shopping</option>
+            <option>Bills</option>
+            <option>Entertainment</option>
+        </select>
 
-<input id="description" placeholder="Description">
-<input id="date" type="date">
+        <input type="text" id="description" placeholder="Description">
+        <input type="date" id="date">
 
-<button onclick="addExpense()">➕ Add</button>
-</div>
+        <button onclick="addExpense()">➕ Add</button>
+    </div>
 
-<!-- CONTROL PANEL -->
-<div class="card">
-<h3>Control Panel</h3>
+    <!-- CONTROL PANEL -->
+    <div class="card">
+        <h3>Controls</h3>
 
-<button onclick="fetchExpenses()">🔄 Get All</button>
-<button onclick="getTotal()">💰 Total</button>
-<button onclick="getSorted()">📅 Sorted</button>
-<button onclick="getTop()">🔥 Top</button>
+        <button onclick="fetchExpenses()">🔄 Get All</button>
+        <button onclick="getTotal()">💰 Total</button>
+        <button onclick="deleteAll()" class="danger">🗑 Delete All</button>
 
-<button onclick="deleteAll()" class="danger">🗑 Delete All</button>
+        <br>
 
-<br>
+        <input type="text" id="search" placeholder="Search description">
+        <button onclick="searchExpenses()">🔍 Search</button>
 
-<input id="idInput" placeholder="ID">
-<button onclick="getById()">Get By ID</button>
-<button onclick="deleteById()">Delete By ID</button>
+        <select id="filter" onchange="fetchExpenses()">
+            <option value="">All</option>
+            <option>Food</option>
+            <option>Travel</option>
+            <option>Shopping</option>
+            <option>Bills</option>
+        </select>
+    </div>
 
-<br>
+    <!-- TOTAL -->
+    <div class="card">
+        <h3>Total: ₹ <span id="total">0</span></h3>
+    </div>
 
-<!--  FILTER DROPDOWN -->
-<select id="filterCategory">
-    <option value="">All Categories</option>
-    <option>Food</option>
-    <option>Travel</option>
-    <option>Shopping</option>
-    <option>Bills</option>
-    <option>Entertainment</option>
-</select>
-<button onclick="filterByCategory()">Filter</button>
-
-<br>
-
-<input id="search" placeholder="Search">
-<button onclick="searchExpenses()">🔍 Search</button>
-
-</div>
-
-<!-- TOTAL -->
-<div class="card">
-<h3>Total: ₹ <span id="total">0</span></h3>
-</div>
-
-<!-- LIST -->
-<div class="card">
-<h3>Expenses</h3>
-<div id="list"></div>
-</div>
+    <!-- LIST -->
+    <div class="card">
+        <h3>Expenses</h3>
+        <div id="list"></div>
+    </div>
 
 </div>
 
@@ -183,156 +157,112 @@ button:hover {
 
 <script>
 
-const API="/expenses";
+const API = "/expenses";
 
-function toast(msg){
-    const t=document.getElementById("toast");
-    t.innerText=msg;
-    t.style.display="block";
-    setTimeout(()=>t.style.display="none",2000);
+function showToast(msg) {
+    const t = document.getElementById("toast");
+    t.innerText = msg;
+    t.style.display = "block";
+    setTimeout(() => t.style.display = "none", 2000);
 }
 
-/*  Dynamic Category Sync */
-function loadCategories(data){
-    const cats=[...new Set(data.map(e=>e.category))];
+async function addExpense() {
 
-    const add=document.getElementById("category");
-    const filter=document.getElementById("filterCategory");
+    const amount = document.getElementById("amount").value;
+    const category = document.getElementById("category").value;
+    const date = document.getElementById("date").value;
 
-    filter.innerHTML='<option value="">All Categories</option>';
-
-    cats.forEach(c=>{
-        filter.innerHTML+=`<option>${c}</option>`;
-    });
-}
-
-/* ADD */
-async function addExpense(){
-
-    const amount=document.getElementById("amount").value;
-    const category=document.getElementById("category").value;
-    const date=document.getElementById("date").value;
-
-    if(!amount || !category || !date){
-        toast("Fill required fields");
+    if (!amount || !category || !date) {
+        showToast("Fill required fields");
         return;
     }
 
-    await fetch(API,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            amount,
+    await fetch(API, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            amount: parseFloat(amount),
             category,
-            description:document.getElementById("description").value,
+            description: document.getElementById("description").value,
             date
         })
     });
 
-    toast("Added");
+    showToast("Added!");
     fetchExpenses();
 }
 
-/* FETCH ALL */
-async function fetchExpenses(){
-    const res=await fetch(API);
-    const data=await res.json();
+async function fetchExpenses() {
 
-    loadCategories(data);
+    const category = document.getElementById("filter").value;
+    let url = API;
+
+    if (category) url += "?category=" + category;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
     render(data);
 }
 
-/* FILTER */
-async function filterByCategory(){
-    const cat=document.getElementById("filterCategory").value;
-    let url=API;
+function render(data) {
 
-    if(cat) url+="?category="+cat;
+    const list = document.getElementById("list");
+    list.innerHTML = "";
 
-    const res=await fetch(url);
-    render(await res.json());
-}
+    let total = 0;
 
-/* SEARCH */
-async function searchExpenses(){
-    const keyword=document.getElementById("search").value;
-    const res=await fetch(API+"/search?keyword="+keyword);
-    render(await res.json());
-}
+    data.forEach(e => {
 
-/* TOTAL */
-async function getTotal(){
-    const res=await fetch(API+"/total");
-    document.getElementById("total").innerText=await res.json();
-}
+        total += e.amount;
 
-/* SORT */
-async function getSorted(){
-    const res=await fetch(API+"/sorted");
-    render(await res.json());
-}
+        const div = document.createElement("div");
+        div.className = "expense";
 
-/* TOP */
-async function getTop(){
-    const res=await fetch(API+"/top");
-    render(await res.json());
-}
-
-/* DELETE */
-async function deleteExpense(id){
-    await fetch(API+"/"+id,{method:"DELETE"});
-    fetchExpenses();
-}
-
-/* DELETE ALL */
-async function deleteAll(){
-    if(!confirm("Delete all?")) return;
-    await fetch(API+"/all",{method:"DELETE"});
-    fetchExpenses();
-}
-
-/* GET BY ID */
-async function getById(){
-    const id=document.getElementById("idInput").value;
-    const res=await fetch(API+"/"+id);
-    render(await res.json());
-}
-
-/* DELETE BY ID */
-async function deleteById(){
-    const id=document.getElementById("idInput").value;
-    await fetch(API+"/"+id,{method:"DELETE"});
-    fetchExpenses();
-}
-
-/* RENDER */
-function render(data){
-
-    if(!Array.isArray(data)) data=[data];
-
-    const list=document.getElementById("list");
-    list.innerHTML="";
-
-    let total=0;
-
-    data.forEach(e=>{
-        total+=e.amount;
-
-        const div=document.createElement("div");
-        div.className="expense";
-
-        div.innerHTML=`
-            <span>
-                ₹${e.amount} | ${e.category} | ${e.date}
-                <br><small>${e.description || ""}</small>
-            </span>
+        div.innerHTML = `
+            <span>₹${e.amount} | ${e.category} | ${e.date}</span>
             <button class="danger" onclick="deleteExpense(${e.id})">Delete</button>
         `;
 
         list.appendChild(div);
     });
 
-    document.getElementById("total").innerText=total.toFixed(2);
+    document.getElementById("total").innerText = total.toFixed(2);
+}
+
+async function deleteExpense(id) {
+    await fetch(API + "/" + id, { method: "DELETE" });
+    showToast("Deleted");
+    fetchExpenses();
+}
+
+async function deleteAll() {
+
+    if (!confirm("Delete ALL data?")) return;
+
+    await fetch(API + "/all", { method: "DELETE" });
+    showToast("All deleted");
+    fetchExpenses();
+}
+
+async function getTotal() {
+
+    const res = await fetch(API + "/total");
+    const total = await res.json();
+
+    document.getElementById("total").innerText = total;
+}
+
+async function searchExpenses() {
+
+    const keyword = document.getElementById("search").value;
+
+    const res = await fetch(API + "/search?keyword=" + keyword);
+    const data = await res.json();
+
+    render(data);
 }
 
 fetchExpenses();
